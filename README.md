@@ -8,18 +8,11 @@
 $ npm install -g gulp
 ```
 
-## bowerをインストール
-
-```
-$ npm install -g bower
-```
-
-## npm / bowerパッケージをインストール
+## npmパッケージをインストール
 
 ```
 #プロジェクトのディレクトリに移動して
 $ npm install
-$ bower install
 ```
 
 ## gulp の監視
