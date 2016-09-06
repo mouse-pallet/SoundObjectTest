@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # gulp最小構成
 
 以下、メモ。
@@ -28,3 +29,6 @@ cssのminifyや、.mapなどを省いたファイルを生成
 ```
 $ gulp build
 ```
+=======
+# SoundObjectTest
+>>>>>>> origin/master
