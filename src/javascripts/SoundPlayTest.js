@@ -1,10 +1,5 @@
-import {createStage,render} from './Stage.js';
-
-createStage();//ステージを作る
-render();
-
-
-
+// //孤立ソース。他に影響はなし
+// //再生する/音源やリスナーの位置を変えることができる
 
 // var AudioContext = window.AudioContext || window.webkitAudioContext;
 // var audioCtx = new AudioContext();
@@ -15,29 +10,29 @@ render();
 
 
 // function setPropaty(){
-// 	console.log("setPropaty");
-//   	panner.panningModel = 'HRTF';
-//   	panner.distanceModel = 'inverse';
-//   	panner.refDistance = 1;
-//   	panner.maxDistance = 100;
-//   	panner.rolloffFactor = 1;
-//   	panner.coneInnerAngle = 360;
-//   	panner.coneOuterAngle = 0;
-//   	panner.coneOuterGain = 0;
-//   	panner.setOrientation(1,0,0);
+//   console.log("setPropaty");
+//     panner.panningModel = 'HRTF';
+//     panner.distanceModel = 'inverse';
+//     panner.refDistance = 1;
+//     panner.maxDistance = 100;
+//     panner.rolloffFactor = 1;
+//     panner.coneInnerAngle = 360;
+//     panner.coneOuterAngle = 0;
+//     panner.coneOuterGain = 0;
+//     panner.setOrientation(1,0,0);
 
-//   	listener.dopplerFactor = 1;
-//   	listener.speedOfSound = 343.3;
-//   	// listener.setOrientation(-10,0,-1,10,1,0);
+//     listener.dopplerFactor = 1;
+//     listener.speedOfSound = 343.3;
+//     listener.setOrientation(0,0,-1,0,1,0);//最初の方向が鼻の向いている方向、後半が脳天の方向
 
 //   }
 
 
 // function positionPanner(){
-// 	console.log("positionPanner");
-// 	panner.setPosition(-1,0,0);
-// 	// panner.setVelocity(0,0,0);
-// 	listener.setPosition(0,0,0);
+//   console.log("positionPanner");
+//   panner.setPosition(-1,0,0);
+//   // panner.setVelocity(0,0,0);
+//   listener.setPosition(0,0,0);
 // }
 
 // function getData(music) {
@@ -64,7 +59,7 @@ render();
 //         // positionPanner();
 //         source.loop = true;
 
-// 		// source.connect(audioCtx.destination);
+//     // source.connect(audioCtx.destination);
 
 //         source.start(0);
 //         console.log(source);
@@ -83,5 +78,3 @@ render();
 
 
 // getData("../sounds/sample3.mp3");
-
-

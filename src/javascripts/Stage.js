@@ -1,4 +1,5 @@
-import MusicObject from './MusicObject.js';
+import PlaneObject from './PlaneObject.js';
+import Music from './Music.js';
 import * as THREE from 'three';
 
 var scene;
@@ -7,6 +8,7 @@ var height;
 var aspect;
 var renderer;
 var camera;
+var musicObjects=[];
 
 export function createStage(){
 
@@ -15,6 +17,7 @@ export function createStage(){
 	// カメラの作成 ------------------------------------------
 	// fov: 画角(視野角)
 	var fov = 75;
+
 
 	 
 	height = 600; // 縦幅
@@ -30,7 +33,7 @@ export function createStage(){
 	// カメラ作成
 	camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
 	//カメラ配置
-	camera.position.set(0, 30, 70); // (x, y, z)
+	camera.position.set(0, 0, 40); // (x, y, z)
 
 	// レンダラーの追加 ----------------------------------------
 	renderer = new THREE.WebGLRenderer();
@@ -44,12 +47,34 @@ export function createStage(){
 	directionalLight.position.set(0, 7, 10); // 光源の角度を設定
 	scene.add(directionalLight); // シーンに追加
 
-	var musicobject = new MusicObject([10,-10,5]);
-	scene.add(musicobject.getObject()); // シーンに追加
+	scene.add( new THREE.AmbientLight(0x333333) );
+
+	// // オブジェクトの追加
+	// var planeobject = new PlaneObject(10,-1,0);
+	// scene.add(planeobject.getObject()); // シーンに追加
+	// planebject.setColor();
+	//オブジェクトの追加
+	// var music = new Music(-50,-0,0,"../sounds/sample3.mp3",width,height);
+	// scene.add(music.getObject()); // シーンに追加
+
+	var music2 = new Music(0,0,-0,"../sounds/sample2.mp3",width,height);
+	scene.add(music2.getObject()); // シーンに追加
+    
 }
+
+
+
 // レンダリング ----------------------------------------
 export function render() {
   // シーンとカメラを渡してレンダリング
   renderer.render(scene, camera);
 }
 
+
+
+// function cameraMove(x,y,z){
+// 	camera.position.set(x, y, z);
+// 	for(var i=0;i<musicObjects.length,i++){
+// 		musicObjects[0].setlistererPos(x,y,z);
+// 	}
+// }

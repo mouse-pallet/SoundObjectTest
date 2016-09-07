@@ -35,6 +35,7 @@ module.exports = {
 
   // copyするファイル
   'copy': [
-    '**/*.ico'
+    '**/*.ico',
+    src+'sounds/*.mp3'
   ]
 };
