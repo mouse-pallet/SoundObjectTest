@@ -40,27 +40,40 @@ export function createStage(){
 	console.log(camera.position);
 
 	// レンダラーの追加 ----------------------------------------
-	renderer = new THREE.WebGLRenderer();
+	renderer = new THREE.WebGLRenderer({antialias: true});
 	renderer.setSize(height, width); // Canvasのサイズ設定
+	renderer.shadowMapEnabled = true;//陰の有効化
 	document.body.appendChild(renderer.domElement);
+
 	 
 	// ライティングを設定する ------------------------------------------
 	var color = 'white'; // 光の色
 	// ライトオブジェクトの作成
 	var directionalLight = new THREE.DirectionalLight(color);
 	directionalLight.position.set(0, 7, 10); // 光源の角度を設定
+	
+	directionalLight.castShadow = true; //影の有効化(光源) 
 	scene.add(directionalLight); // シーンに追加
 
 	scene.add( new THREE.AmbientLight(0x333333) );
 
 	var tree=[];
-	var treeNum =200;
-	for(var i=0;i<treeNum;i++){
-		var treeX=Math.floor( Math.random()*width-width/2) ;
-		var treeZ=Math.floor( Math.random() * depth-depth/2 );
-		var obj=new PlaneObject(treeX,0,treeZ,'orange');
-		scene.add(obj.getObject());
-		tree.push(obj);
+	var treeNum =400;
+	var pathLength=40;//道幅
+	for(var i=0;i<treeNum/2;i++){//道の左右に木を配置　１ループで左右に一本ずつ
+		//右
+		var treeRX=Math.floor(pathLength/2 +Math.random() * width/4);
+		var treeRZ=Math.floor( Math.random() * depth - depth/2);
+		var objR=new PlaneObject(treeRX,0,treeRZ,'orange');
+		scene.add(objR.getObject());
+		tree.push(objR);
+
+		//左
+		var treeLX=Math.floor( -pathLength/2-Math.random() * width/4);
+		var treeLZ=Math.floor( Math.random() * depth - depth/2);
+		var objL=new PlaneObject(treeLX,0,treeLZ,'orange');
+		scene.add(objL.getObject());
+		tree.push(objL);
 	}
 
 
@@ -99,8 +112,8 @@ export function cameraMove(x,y,z){
 	// renderer.render(scene, camera);
 }
 
-export function cameraRotation(rx){
-	camera.rotation.x+=rx;
+export function cameraRotation(ry){
+	camera.rotation.y+=ry;
 
 }
 

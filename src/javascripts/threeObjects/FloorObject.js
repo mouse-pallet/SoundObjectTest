@@ -14,6 +14,7 @@ class FloorObject{
 		this.cube = new THREE.Mesh(this.geometry, this.material);
 		this.cube.position.set(0,-30,-10);
 		this.cube.rotation.x=-Math.PI/2;
+		this.cube.receiveShadow = true;//影の有効化
 	}	
 
 	// setMusic(music){

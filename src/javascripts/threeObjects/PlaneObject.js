@@ -17,6 +17,7 @@ class PlaneObject{
 		// メッシュの作成
 		this.cube = new THREE.Mesh(this.geometry, this.material);
 		this.cube.position.set(this.x, this.y, this.z);
+		this.cube.castShadow = true;
 	}	
 
 	// setMusic(music){
