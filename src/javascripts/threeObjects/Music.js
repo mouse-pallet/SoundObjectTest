@@ -2,8 +2,8 @@ import PlaneObject from './PlaneObject.js';
 
 class Music extends PlaneObject{
 
-	constructor(posX,posY,posZ,color,music,width,height,depth) {
-		super(posX,posY,posZ,color);
+	constructor(posX,posY,posZ,music,width,height,depth) {
+		super(posX,posY,posZ);
 		this.music=music;
 		this.AudioContext = window.AudioContext || window.webkit.AudioContext;
 		this.audioCtx = new AudioContext();

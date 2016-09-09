@@ -1,3 +1,5 @@
+import * as THREE from 'three';
+window.THREE = THREE;
 import {createStage,render,cameraMove,cameraRotation} from './Stage.js';
 
 

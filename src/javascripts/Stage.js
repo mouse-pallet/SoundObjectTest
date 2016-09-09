@@ -1,5 +1,6 @@
 import PlaneObject from './threeObjects/PlaneObject.js';
 import FloorObject from './threeObjects/FloorObject.js';
+import FairyObject from './threeObjects/FairyObject.js';
 import Music from './threeObjects/Music.js';
 import * as THREE from 'three';
 
@@ -12,6 +13,7 @@ var aspect;
 var renderer;
 var camera;
 var musicObjects=[];
+var fairyobject;
 
 export function createStage(){
 
@@ -31,7 +33,7 @@ export function createStage(){
 	// near： ニアークリップ、 カメラからの撮影開始位置、これより近いものは撮影しない
 	var near = 1;
 	// far: ファークリップ カメラからの撮影終了位置、これより遠いものは撮影しない
-	var far = 300;
+	var far = 1200;
 	 
 	// カメラ作成
 	camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
@@ -57,27 +59,45 @@ export function createStage(){
 
 	scene.add( new THREE.AmbientLight(0x333333) );
 
+
+	// //jasonテスト
+	// //オブジェクト　
+ //    var loader = new THREE.JSONLoader();　
+ //    var modelPath = "./model/Three4.json";//書き出したjsonファイル 　　
+ //    loader.load(modelPath, function(geo, mat) {　　　
+ //      var faceMat = new THREE.MeshFaceMaterial(mat);　　　
+ //      var model = new THREE.Mesh(geo, faceMat);　　　
+ //      model.position.set(0, -5, 0);　　　
+ //      model.scale.set(1, 1, 1);　　　
+ //      scene.add(model);　　
+ //    });　
+
+
+	//有象無象の木	
 	var tree=[];
-	var treeNum =400;
+	var treeNum =200;//木の本数
 	var pathLength=40;//道幅
 	for(var i=0;i<treeNum/2;i++){//道の左右に木を配置　１ループで左右に一本ずつ
 		//右
-		var treeRX=Math.floor(pathLength/2 +Math.random() * width/4);
+		var treeRX=Math.floor(pathLength/2 +Math.random() * width/100);
 		var treeRZ=Math.floor( Math.random() * depth - depth/2);
-		var objR=new PlaneObject(treeRX,0,treeRZ,'orange');
+		var objR=new PlaneObject(treeRX,0,treeRZ);
+		objR.setColor('orange');
 		scene.add(objR.getObject());
 		tree.push(objR);
 
 		//左
-		var treeLX=Math.floor( -pathLength/2-Math.random() * width/4);
+		var treeLX=Math.floor( -pathLength/2-Math.random() * width/100);
 		var treeLZ=Math.floor( Math.random() * depth - depth/2);
-		var objL=new PlaneObject(treeLX,0,treeLZ,'orange');
+		var objL=new PlaneObject(treeLX,0,treeLZ);
+		objL.setColor('red');
 		scene.add(objL.getObject());
 		tree.push(objL);
 	}
 
 
-	musicObjects.push(new Music(40,0,0,'green',"../sounds/sample3.mp3",width,height,depth));
+	musicObjects.push(new Music(20,0,0,"../sounds/sample3.mp3",width,height,depth));
+	musicObjects[0].setColor('blue');
 	musicObjects[0].setlistererPos(camera.position.x,camera.position.y,camera.position.z);
 	scene.add(musicObjects[0].getObject()); // シーンに追加
 
@@ -86,8 +106,14 @@ export function createStage(){
     //床オブジェクト
 	var floorobject = new FloorObject();
 	scene.add(floorobject.getObject()); // シーンに追加
-}
 
+	//妖精オブジェクト
+	fairyobject = new FairyObject();
+	// fairyobject.setPosition(camera.position.x-2,camera.position.y,camera.position.z-5);
+	fairyobject.setPosition(0,0,0);
+	scene.add(fairyobject.getObject()); // シーンに追加
+}
+// 
 
 
 // レンダリング ----------------------------------------
@@ -103,13 +129,12 @@ export function cameraMove(x,y,z){
 	camera.position.x+=x;
 	camera.position.y+=y;
 	camera.position.z+=z;
-	console.log(camera.position.z);
-
 
 	for(var i=0;i<musicObjects.length;i++){
 		musicObjects[i].setlistererPos(camera.position.x,camera.position.y,camera.position.z);
 	}
-	// renderer.render(scene, camera);
+	// fairyobject.setPosition(camera.position.x-10,camera.position.y,camera.position.z-10);
+
 }
 
 export function cameraRotation(ry){
