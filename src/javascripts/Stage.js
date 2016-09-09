@@ -6,7 +6,7 @@ import FairyObject from './threeObjects/FairyObject.js';
 import Music from './threeObjects/Music.js';
 import * as THREE from 'three';
 
-
+var canvas;
 var scene;
 var width;
 var height;
@@ -19,10 +19,17 @@ var fairyobject;
 var rendercnt=0;
 var group;
 
+var canvas2;
+var scene2;
+var renderer2;
+
 export function createStage(){
 
 	scene = new THREE.Scene();
 	scene.fog = new THREE.FogExp2( 0x292934, 0.03 );//奥行きの色をぼけさせる
+	
+	scene2 = new THREE.Scene();
+	scene2.fog = new THREE.FogExp2( 0x292934, 0.03 );//奥行きの色をぼけさせる
 
 	// カメラの作成 ------------------------------------------
 	// fov: 画角(視野角)
@@ -45,11 +52,33 @@ export function createStage(){
 	camera.position.set(0, 0, 30); // (x, y, z)
 	console.log(camera.position);
 
+	// // レンダラーの追加 ----------------------------------------
+	// renderer = new THREE.WebGLRenderer({antialias: true});
+	// renderer.setSize(height, width); // Canvasのサイズ設定
+	// renderer.shadowMapEnabled = true;//陰の有効化
+	// document.body.appendChild(renderer.domElement);
+
+
+	canvas = document.getElementById('layer1'); // div要素の取得
+
+	console.log(canvas);
+	canvas2 = document.getElementById('layer2'); // div要素の取得
+
+
 	// レンダラーの追加 ----------------------------------------
 	renderer = new THREE.WebGLRenderer({antialias: true});
 	renderer.setSize(height, width); // Canvasのサイズ設定
 	renderer.shadowMapEnabled = true;//陰の有効化
-	document.body.appendChild(renderer.domElement);
+	// document.body.appendChild(renderer.domElement);
+	canvas.appendChild(renderer.domElement);
+
+
+	renderer2 = new THREE.WebGLRenderer({antialias: true,alpha: true});
+	renderer2.setClearColor( 0x000000, 0 );//レンダラーの透過
+	renderer2.setSize(height, width); // Canvasのサイズ設定
+	renderer2.shadowMapEnabled = true;//陰の有効化
+	// document.body.appendChild(renderer2.domElement);
+	canvas2.appendChild(renderer2.domElement);
 
 	 
 	// ライティングを設定する ------------------------------------------
@@ -60,13 +89,18 @@ export function createStage(){
 	
 	directionalLight.castShadow = true; //影の有効化(光源) 
 	scene.add(directionalLight); // シーンに追加
-
+	scene2.add(directionalLight); // シーンに追加
 	scene.add( new THREE.AmbientLight(0x333333) );
+	scene2.add( new THREE.AmbientLight(0x333333) );
+
 	//環境光
-	// 赤い光
 	var light = new THREE.AmbientLight(0xffffff);
 	scene.add( light );
+	scene2.add( light );
 
+
+
+	//////以下からオブジェクト追加
 
 
 	 if ( group == null ) {
@@ -97,7 +131,7 @@ export function createStage(){
 
 	//有象無象の木	
 	var tree=[];
-	var treeNum =800;//木の本数
+	var treeNum =1200;//木の本数
 	// var pathLength=40;//道幅
 
 	var groupgeometry = new THREE.Geometry;
@@ -105,17 +139,6 @@ export function createStage(){
 
 	for(var i=0;i<treeNum/2;i++){//道の左右に木を配置　１ループで左右に一本ずつ
 
-
-		// //右
-		// var treeRX = Math.floor(pathLength/2 +Math.random() * width/50);
-		// var treeRY = 10;
-		// var treeRZ = Math.floor( Math.random() * depth - depth/2);
-		// var treeRrad = Math.random() * Math.PI * 2;
-		// meshItem.position.x = treeRX;
-		// meshItem.position.y = treeRY;
-		// meshItem.position.z = treeRZ;
-		// meshItem.rotation.y = treeRrad;
-		// groupgeometry.mergeMesh(meshItem);
 
 		var treeRX = Math.floor(Math.random() * width - width/2);
 		var treeRY = 10;
@@ -139,7 +162,6 @@ export function createStage(){
 
 
 	musicObjects.push(new Music(-40,0,0,"../sounds/sample3.mp3",[width,height,depth]));
-	musicObjects[0].setColor('blue');
 	musicObjects[0].setlistererPos(camera.position.x,camera.position.y,camera.position.z);
 	scene.add(musicObjects[0].getObject()); // シーンに追加
 
@@ -157,7 +179,7 @@ export function createStage(){
 	fairyobject = new FairyObject();
 	fairyobject.setPositionXZ(camera.position.x,camera.position.z,musicObjects[0].x,musicObjects[0].z);
 	// fairyobject.setPositionXZ(camera.position.x-2,camera.position.y,camera.position.z-5);
-	scene.add(fairyobject.getObject()); // シーンに追加
+	scene2.add(fairyobject.getObject()); // シーンに追加
 }
 // 
 
@@ -169,6 +191,7 @@ export function render() {
   fairyobject.setY(Math.sin(rendercnt*Math.PI/2));
   requestAnimationFrame(render);
   renderer.render(scene, camera);
+  renderer2.render(scene2, camera);
 }
 
 
@@ -203,6 +226,7 @@ export function cameraMove(x,y,z){
 
 export function cameraRotation(ry){
 	camera.rotation.y+=ry;
+	fairyobject.setRotationY(ry*5);//現時点なんかへん。
 
 }
 

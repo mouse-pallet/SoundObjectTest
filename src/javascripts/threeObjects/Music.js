@@ -4,12 +4,6 @@ class Music extends PlaneObject{
 
 	constructor(posX,posY,posZ,music,spaceXYZ) {
 		super(posX,posY,posZ,spaceXYZ);
-
-    //     //空間設定
-    // this.width=spaceXYZ[0]/2;//画面幅
-    // this.height=spaceXYZ[1]/2;//画面高さ
-    // this.depth=spaceXYZ[2]/2;
-
     
     //オブジェクト
     this.musicObject;
@@ -24,44 +18,21 @@ class Music extends PlaneObject{
 		this.listener = this.audioCtx.listener;
     this.panner.setPosition(posX/this.width,posY/this.height,posZ/this.depth);//音源の位置を設定
     this.gainNode = this.audioCtx.createGain();//音量調整
-
-
-
-    // //なぜかここでメッシュをつくる....
-    // this.geometry = new THREE.CubeGeometry(20, 20, 20); // サイズ設定（x, y, z）
-    // // マテリアルの作成
-    // this.material = new THREE.MeshPhongMaterial({color: 'white'});
-    // // メッシュの作成
-    // this.musicObject = new THREE.Mesh(this.geometry, this.material);
-    // this.musicObject.position.set(this.x, this.y, this.z);
-    // this.musicObject.castShadow = true;
+    this.analyser = this.audioCtx.createAnalyser();//音声解析
 
   }
 
-  // //createMeshでコールバックしたいねぇ
-  // createGeometry(){
-  //   this.geometry = new THREE.CubeGeometry(20, 20, 20); // サイズ設定（x, y, z）
-  // }
-
-  // createMaterial(){
-  //   return material;
-  // }
-
   createMesh(){
 
-    // this.loader = new THREE.JSONLoader();　
-    // this.modelPath = "./model/Tree.json";//書き出したjsonファイル 　　
-    // this.loader.load(this.modelPath, (geo, mat)=> {　　　
-    //   this.faceMat = new THREE.MeshFaceMaterial(mat);　　　
-    //   this.musicObject = new THREE.Mesh(geo, this.zzzzzxfaceMat);　　　　
-    //   this.musicObject.scale.set(1, 1, 1);　　　　
-    // });
 
 
-
+    
     this.geometry = new THREE.SphereGeometry(30, 300,300 ); // サイズ設定（x, y, z）
     // マテリアルの作成
-    this.material = new THREE.MeshPhongMaterial({color: 'white'});
+
+    this.loader = new THREE.TextureLoader();
+    this.map = this.loader.load( '../../images/starsky.jpg');
+    this.material = new THREE.MeshBasicMaterial({map:this.map,transparent: true,opacity : 0.5,blending: THREE.AdditiveBlending,side: THREE.DoubleSide,depthWrite: false});
     // メッシュの作成
     this.musicObject = new THREE.Mesh(this.geometry, this.material);
     this.musicObject.position.set(this.x, this.y, this.z);
@@ -72,8 +43,6 @@ class Music extends PlaneObject{
     this.createMesh();
   	this.setProperty();
   	this.getData();
-
-    
 
   	return　this.musicObject;
   }
@@ -96,7 +65,20 @@ class Music extends PlaneObject{
 
   }
 
-  ManageVolume(){
+  analyzeSound(){
+    this.analyser.fftSize = 2048;
+    this.analyser.connect(this.audioCtx.destination);
+    this.bufferLength = this.analyser.frequencyBinCount;
+    this.dataArray = new Uint8Array(this.bufferLength);
+    this.analyser.getByteTimeDomainData(this.dataArray);
+
+
+  }
+
+
+
+
+  manageVolume(){
     var lx=this.listener.positionX.value;
     var ly=this.listener.positionY.value;
     var lz=this.listener.positionZ.value;
@@ -124,7 +106,7 @@ class Music extends PlaneObject{
   //リスナーの位置を設定
   setlistererPos(lposX,lposY,lposZ){
   	this.listener.setPosition(lposX/this.width,lposY/this.height,lposZ/this.depth);
-    this.ManageVolume();//リスナーの位置によって、音の出力を調整する。
+    this.manageVolume();//リスナーの位置によって、音の出力を調整する。
   }
 
   //音源の位置を設定
@@ -156,7 +138,8 @@ class Music extends PlaneObject{
         this.source.connect(this.gainNode);
         this.gainNode.connect(this.audioCtx.destination);
         this.source.start(0);
-        this.ManageVolume();
+        this.source.loop=true;
+        this.manageVolume();
 
       },
 

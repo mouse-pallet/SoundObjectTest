@@ -13,7 +13,7 @@ class FloorObject　extends PlaneObject{
 		this.map.repeat.set( 20, 20 );
 
 		this.geometry = new THREE.PlaneGeometry( 800, 1200, 1, 1 );
-		this.material = new THREE.MeshPhongMaterial( { map: this.map,bumpMap:this.map, bumpScale: 0.5} )
+		this.material = new THREE.MeshPhongMaterial( { map: this.map,bumpMap:this.map, bumpScale: 15} )
 		// メッシュの作成
 		this.floor = new THREE.Mesh(this.geometry, this.material);
 		

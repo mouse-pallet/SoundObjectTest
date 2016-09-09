@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-class FairyObject{
+class ButterflyObject{
 
 	constructor(){
 
@@ -10,27 +10,34 @@ class FairyObject{
 
 		var loader = new THREE.TextureLoader();
 
-		this.map1 = loader.load('../../images/ageha.png');
+		this.mapR = loader.load('../../images/ageha.png');
+		this.mapL = loader.load('../../images/ageha.png');
 
-		this.geometry = new THREE.PlaneGeometry( 2, 2, 1, 1 );
-		this.material = new THREE.MeshLambertMaterial( { map: this.map1,transparent: true,side:THREE.DoubleSide} );
-		// this.material = new THREE.SpriteMaterial( { map: this.map1,transparent: true} );
+		this.butterfly = new THREE.Object3D();
 
+		this.geometryL = new THREE.PlaneGeometry( 1, 2, 1, 1 );//右羽
+		this.geometryR = new THREE.PlaneGeometry( 1, 2, 1, 1 );//左羽
+		this.materialL = new THREE.MeshLambertMaterial( { map: this.mapR,transparent: true,side:THREE.DoubleSide} );
+		this.materialR = new THREE.MeshLambertMaterial( { map: this.mapL,transparent: true,side:THREE.DoubleSide} );
 		// メッシュの作成
-		this.fairy = new THREE.Mesh(this.geometry, this.material);
-		// this.fairy.position.set(0,10,-10);
-		// this.fairy.rotation.y=-Math.PI;
-		this.fairy.rotation.x=-Math.PI/8;
+		this.objR = new THREE.Mesh(this.geometryR, this.materialR);
+		this.objL = new THREE.Mesh(this.geometryL, this.materialL);
+		this.butterfly.add(this.objR);
+		this.butterfly.add(this.objL);
+
+		this.theta;//左右反転すればいいだけなので一つ
+
+		this.butterfly.rotation.x=-Math.PI/8;
+
+	}
+
+	wing(){
 
 	}	
 
 
 	getObject(){
 		return this.fairy;
-	}
-
-	setRotationY(ry){
-		this.fairy.rotation.y=+ry;
 	}
 
 	setPosition(x,y,z){
