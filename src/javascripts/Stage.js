@@ -14,6 +14,7 @@ var renderer;
 var camera;
 var musicObjects=[];
 var fairyobject;
+var rendercnt=0;
 
 export function createStage(){
 
@@ -58,6 +59,10 @@ export function createStage(){
 	scene.add(directionalLight); // シーンに追加
 
 	scene.add( new THREE.AmbientLight(0x333333) );
+	//環境光
+	// 赤い光
+	var light = new THREE.AmbientLight(0xffffff);
+	scene.add( light );
 
 
 	// //jasonテスト
@@ -109,8 +114,8 @@ export function createStage(){
 
 	//妖精オブジェクト
 	fairyobject = new FairyObject();
-	// fairyobject.setPosition(camera.position.x-2,camera.position.y,camera.position.z-5);
-	fairyobject.setPosition(0,0,0);
+	fairyobject.setPosition(camera.position.x-2,camera.position.y,camera.position.z-5);
+	// fairyobject.setPosition(0,0,0);
 	scene.add(fairyobject.getObject()); // シーンに追加
 }
 // 
@@ -119,6 +124,8 @@ export function createStage(){
 // レンダリング ----------------------------------------
 export function render() {
   // シーンとカメラを渡してレンダリング
+  rendercnt+=0.05;
+  fairyobject.setPosition(camera.position.x-2,Math.sin(rendercnt*Math.PI/2),camera.position.z-5);
   requestAnimationFrame(render);
   renderer.render(scene, camera);
 }
@@ -130,10 +137,13 @@ export function cameraMove(x,y,z){
 	camera.position.y+=y;
 	camera.position.z+=z;
 
+
+	
+
 	for(var i=0;i<musicObjects.length;i++){
 		musicObjects[i].setlistererPos(camera.position.x,camera.position.y,camera.position.z);
 	}
-	// fairyobject.setPosition(camera.position.x-10,camera.position.y,camera.position.z-10);
+	fairyobject.setPosition(camera.position.x-2,camera.position.y,camera.position.z-5);
 
 }
 
