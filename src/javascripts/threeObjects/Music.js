@@ -27,14 +27,14 @@ class Music extends PlaneObject{
 
 
 
-    //なぜかここでメッシュをつくる....
-    this.geometry = new THREE.CubeGeometry(20, 20, 20); // サイズ設定（x, y, z）
-    // マテリアルの作成
-    this.material = new THREE.MeshPhongMaterial({color: 'white'});
-    // メッシュの作成
-    this.musicObject = new THREE.Mesh(this.geometry, this.material);
-    this.musicObject.position.set(this.x, this.y, this.z);
-    this.musicObject.castShadow = true;
+    // //なぜかここでメッシュをつくる....
+    // this.geometry = new THREE.CubeGeometry(20, 20, 20); // サイズ設定（x, y, z）
+    // // マテリアルの作成
+    // this.material = new THREE.MeshPhongMaterial({color: 'white'});
+    // // メッシュの作成
+    // this.musicObject = new THREE.Mesh(this.geometry, this.material);
+    // this.musicObject.position.set(this.x, this.y, this.z);
+    // this.musicObject.castShadow = true;
 
   }
 
@@ -47,23 +47,35 @@ class Music extends PlaneObject{
   //   return material;
   // }
 
-  // createMesh(){
-  //   this.geometry = new THREE.CubeGeometry(20, 20, 20); // サイズ設定（x, y, z）
-  //   // マテリアルの作成
-  //   this.material = new THREE.MeshPhongMaterial({color: 'white'});
-  //   // メッシュの作成
-  //   this.musicObject = new THREE.Mesh(this.geometry, this.material);
-  //   this.musicObject.position.set(this.x, this.y, this.z);
-  //   this.musicObject.castShadow = true;
-  // }
+  createMesh(){
+
+    // this.loader = new THREE.JSONLoader();　
+    // this.modelPath = "./model/Tree.json";//書き出したjsonファイル 　　
+    // this.loader.load(this.modelPath, (geo, mat)=> {　　　
+    //   this.faceMat = new THREE.MeshFaceMaterial(mat);　　　
+    //   this.musicObject = new THREE.Mesh(geo, this.zzzzzxfaceMat);　　　　
+    //   this.musicObject.scale.set(1, 1, 1);　　　　
+    // });
+
+
+
+    this.geometry = new THREE.SphereGeometry(30, 300,300 ); // サイズ設定（x, y, z）
+    // マテリアルの作成
+    this.material = new THREE.MeshPhongMaterial({color: 'white'});
+    // メッシュの作成
+    this.musicObject = new THREE.Mesh(this.geometry, this.material);
+    this.musicObject.position.set(this.x, this.y, this.z);
+    this.musicObject.castShadow = true;
+  }
 
   getObject(){
+    this.createMesh();
   	this.setProperty();
   	this.getData();
 
     
 
-  	return　super.getObject();
+  	return　this.musicObject;
   }
 
   

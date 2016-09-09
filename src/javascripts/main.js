@@ -18,17 +18,19 @@ document.onkeydown = function (e){
 		cameraMove(0,0,+1);
 	}else if(e.keyCode == 37){//reftkey
 		// up2gain();
+		cameraMove(-1,0,0);
+		// cameraRotation(+0.1);
+	}else if(e.keyCode == 39){//lightkey
+		cameraMove(+1,0,0);
+		// cameraRotation(-0.1);
+	}else if(e.keyCode == 90){//Z key
+		// up2gain();
 		// cameraMove(-1,0,0);
 		cameraRotation(+0.1);
-	}else if(e.keyCode == 39){//lightkey
+	}else if(e.keyCode == 88){//X key
 		// cameraMove(+1,0,0);
 		cameraRotation(-0.1);
 	}
-	// }else if(e.keyCode == 37){//reftkey
-	// 	cameraRotation(-0.1);
-	// }else if(e.keyCode == 39){//lightkey
-	// 	cameraRotation(+0.1);
-	// }
 
 };
 

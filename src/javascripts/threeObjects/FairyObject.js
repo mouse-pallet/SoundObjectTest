@@ -1,12 +1,13 @@
 import * as THREE from 'three';
 
 class FairyObject{
-	// 物体を追加する ----------------------------------------
-	// ジオメトリーの作成
-	//constructor(img,sound,pos){
-		//this.img=img;
-		//this.sound=sound;
+
 	constructor(){
+
+		this.x;
+		this.y;
+		this.z;
+
 		var loader = new THREE.TextureLoader();
 
 		this.map1 = loader.load('../../images/ageha.png');
@@ -19,19 +20,6 @@ class FairyObject{
 		this.fairy.rotation.y=-Math.PI;
 
 	}	
-	
-
-	setImage(img){
-		this.img= img;
-	}
-
-	setColor(color){
-
-		this.material = new THREE.MeshPhongMaterial({color: color});
-		this.fairy = new THREE.Mesh(this.geometry, this.material);
-		this.fairy.position.set(this.x, this.y, this.z);
-
-	}
 
 
 	getObject(){
@@ -40,7 +28,51 @@ class FairyObject{
 
 	setPosition(x,y,z){
 		// console.log("x:"+x+",y:"+y+",z:"+z);
+		this.x = x;
+		this.y = y;
+		this.z = z;
 		this.fairy.position.set(x, y, z);  // 位置を設定(x, y, z)	
+	}
+
+	setPositionXZ(cameraX,cameraZ,objX,objZ){
+		// console.log("x:"+x+",y:"+y+",z:"+z);
+		// this.x = x;
+		// this.y = y;
+		// this.z = z;
+		// this.fairy.position.set(x, y, z);  // 位置を設定(x, y, z)	
+
+
+		var dis=Math.sqrt((cameraX-objX)*(cameraX-objX) + (cameraZ-objZ) * (cameraZ - objZ));
+	
+
+		// console.log("musicObjects x:" + objX + ",z:" + objZ);
+		// console.log("listener x:" + cameraX + ",z:" + cameraZ);
+
+		var fairyX=cameraX - 5*(cameraX-objX)/dis;
+		var fairyZ=cameraZ - 5*(cameraZ-objZ)/dis;
+
+		// console.log("fairy x:" + fairyX + ",z:" + fairyZ + ",dis:" + dis);
+
+		this.fairy.position.x = fairyX;	
+		this.fairy.position.z = fairyZ;	
+	}
+
+	setX(x){
+		// console.log("x:"+x+",y:"+y+",z:"+z);
+		this.x = x;
+		this.fairy.position.x = x;	
+	}
+
+	setY(y){
+		// console.log("x:"+x+",y:"+y+",z:"+z);
+		this.y = y;
+		this.fairy.position.y = y;	
+	}
+
+	setZ(z){
+		// console.log("x:"+x+",y:"+y+",z:"+z);
+		this.z = z;
+		this.fairy.position.z = z;	
 	}
 
 }

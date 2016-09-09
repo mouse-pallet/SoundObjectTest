@@ -98,29 +98,7 @@ export function createStage(){
 	//有象無象の木	
 	var tree=[];
 	var treeNum =800;//木の本数
-	var pathLength=40;//道幅
-	// for(var i=0;i<treeNum/2;i++){//道の左右に木を配置　１ループで左右に一本ずつ
-	// 	//右
-	// 	var treeRX=Math.floor(pathLength/2 +Math.random() * width/100);
-	// 	var treeRZ=Math.floor( Math.random() * depth - depth/2);
-	// 	// var objR=new PlaneObject(treeRX,0,treeRZ,[width,height,depth]);
-	// 	// objR.createObject();
-	// 	// objR.setColor('orange');
-	// 	var objR = new ImageObject(treeRX,0,treeRZ,[width,height,depth],20,20,"../images/tree5.png");
-	// 	scene.add(objR.getObject());
-	// 	tree.push(objR);
-
-	// 	//左
-	// 	var treeLX=Math.floor( -pathLength/2-Math.random() * width/100);
-	// 	var treeLZ=Math.floor( Math.random() * depth - depth/2);
-	// 	var objL = new ImageObject(treeLX,0,treeLZ,[width,height,depth],20,20,"../images/tree5.png");
-	// 	// var objL=new PlaneObject(treeLX,0,treeLZ,[width,height,depth]);
-	// 	objL.createObject();
-	// 	objL.setColor('red');
-	// 	// scene.add(objL.getObject());
-	// 	group.add(objL.getObject());
-	// 	tree.push(objL);
-	// }
+	// var pathLength=40;//道幅
 
 	var groupgeometry = new THREE.Geometry;
 	var meshItem = new THREE.Mesh(new THREE.PlaneGeometry( 40,40, 1, 1));
@@ -128,19 +106,21 @@ export function createStage(){
 	for(var i=0;i<treeNum/2;i++){//道の左右に木を配置　１ループで左右に一本ずつ
 
 
-		//右
-		var treeRX = Math.floor(pathLength/2 +Math.random() * width/50);
+		// //右
+		// var treeRX = Math.floor(pathLength/2 +Math.random() * width/50);
+		// var treeRY = 10;
+		// var treeRZ = Math.floor( Math.random() * depth - depth/2);
+		// var treeRrad = Math.random() * Math.PI * 2;
+		// meshItem.position.x = treeRX;
+		// meshItem.position.y = treeRY;
+		// meshItem.position.z = treeRZ;
+		// meshItem.rotation.y = treeRrad;
+		// groupgeometry.mergeMesh(meshItem);
+
+		var treeRX = Math.floor(Math.random() * width - width/2);
 		var treeRY = 10;
 		var treeRZ = Math.floor( Math.random() * depth - depth/2);
-		var treeRrad = Math.random() * Math.PI * 2;
-		meshItem.position.x = treeRX;
-		meshItem.position.y = treeRY;
-		meshItem.position.z = treeRZ;
-		meshItem.rotation.y = treeRrad;
-		groupgeometry.mergeMesh(meshItem);
-
-		var treeRX = Math.floor(-pathLength / 2 -Math.random() * width/50);
-		var treeRZ = Math.floor( Math.random() * depth - depth/2);
+		var treeRrad = Math.random() * Math.PI;
 		meshItem.position.x = treeRX;
 		meshItem.position.y = treeRY;
 		meshItem.position.z = treeRZ;
@@ -158,7 +138,7 @@ export function createStage(){
 
 
 
-	musicObjects.push(new Music(20,0,0,"../sounds/sample3.mp3",[width,height,depth]));
+	musicObjects.push(new Music(-40,0,0,"../sounds/sample3.mp3",[width,height,depth]));
 	musicObjects[0].setColor('blue');
 	musicObjects[0].setlistererPos(camera.position.x,camera.position.y,camera.position.z);
 	scene.add(musicObjects[0].getObject()); // シーンに追加
@@ -175,8 +155,8 @@ export function createStage(){
 
 	//妖精オブジェクト
 	fairyobject = new FairyObject();
-	fairyobject.setPosition(camera.position.x-2,camera.position.y,camera.position.z-5);
-	// fairyobject.setPosition(0,0,0);
+	fairyobject.setPositionXZ(camera.position.x,camera.position.z,musicObjects[0].x,musicObjects[0].z);
+	// fairyobject.setPositionXZ(camera.position.x-2,camera.position.y,camera.position.z-5);
 	scene.add(fairyobject.getObject()); // シーンに追加
 }
 // 
@@ -185,8 +165,8 @@ export function createStage(){
 // レンダリング ----------------------------------------
 export function render() {
   // シーンとカメラを渡してレンダリング
-  rendercnt+=0.05;
-  fairyobject.setPosition(camera.position.x-2,Math.sin(rendercnt*Math.PI/2),camera.position.z-5);
+  rendercnt+=0.025;
+  fairyobject.setY(Math.sin(rendercnt*Math.PI/2));
   requestAnimationFrame(render);
   renderer.render(scene, camera);
 }
@@ -204,7 +184,20 @@ export function cameraMove(x,y,z){
 	for(var i=0;i<musicObjects.length;i++){
 		musicObjects[i].setlistererPos(camera.position.x,camera.position.y,camera.position.z);
 	}
-	fairyobject.setPosition(camera.position.x-2,camera.position.y,camera.position.z-5);
+	// var dis=Math.sqrt((camera.position.x-musicObjects[0].x)*(camera.position.x-musicObjects[0].x) + (camera.position.z-musicObjects[0].z) * (camera.position.z - musicObjects[0].z));
+	
+
+	// console.log("musicObjects x:" + musicObjects[0].x + ",z:" + musicObjects[0].z);
+	// console.log("listener x:" + camera.position.x + ",z:" + camera.position.z);
+
+	// var fairyX=camera.position.x + 5*Math.abs(camera.position.x-musicObjects[0].x)/dis;
+	// var fairyZ=camera.position.z - 5*Math.abs(camera.position.z-musicObjects[0].z)/dis;
+
+	// console.log("fairy x:" + fairyX + ",z:" + fairyZ + ",dis:" + dis);
+
+	// fairyobject.setX(fairyX);
+	// fairyobject.setZ(fairyZ);
+	fairyobject.setPositionXZ(camera.position.x,camera.position.z,musicObjects[0].x,musicObjects[0].z);
 
 }
 
