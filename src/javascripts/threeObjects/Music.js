@@ -2,29 +2,65 @@ import PlaneObject from './PlaneObject.js';
 
 class Music extends PlaneObject{
 
-	constructor(posX,posY,posZ,music,width,height,depth) {
-		super(posX,posY,posZ);
+	constructor(posX,posY,posZ,music,spaceXYZ) {
+		super(posX,posY,posZ,spaceXYZ);
+
+    //     //空間設定
+    // this.width=spaceXYZ[0]/2;//画面幅
+    // this.height=spaceXYZ[1]/2;//画面高さ
+    // this.depth=spaceXYZ[2]/2;
+
+    
+    //オブジェクト
+    this.musicObject;
+    this.geometry;
+    this.material;
+
+    //音源操作
 		this.music=music;
 		this.AudioContext = window.AudioContext || window.webkit.AudioContext;
 		this.audioCtx = new AudioContext();
-
 		this.panner = this.audioCtx.createPanner();
 		this.listener = this.audioCtx.listener;
+    this.panner.setPosition(posX/this.width,posY/this.height,posZ/this.depth);//音源の位置を設定
+    this.gainNode = this.audioCtx.createGain();//音量調整
 
-		this.width=width/2;//画面幅
-		this.height=height/2;//画面高さ
-		// this.depth=Math.sqrt(this.height*this.height+this.width*this.width);
-    this.depth=depth/2;
-  	this.panner.setPosition(posX/this.width,posY/this.height,posZ/this.depth);//音源の位置を設定
 
-      //音量調整
-    this.gainNode = this.audioCtx.createGain();
+
+    //なぜかここでメッシュをつくる....
+    this.geometry = new THREE.CubeGeometry(20, 20, 20); // サイズ設定（x, y, z）
+    // マテリアルの作成
+    this.material = new THREE.MeshPhongMaterial({color: 'white'});
+    // メッシュの作成
+    this.musicObject = new THREE.Mesh(this.geometry, this.material);
+    this.musicObject.position.set(this.x, this.y, this.z);
+    this.musicObject.castShadow = true;
 
   }
+
+  // //createMeshでコールバックしたいねぇ
+  // createGeometry(){
+  //   this.geometry = new THREE.CubeGeometry(20, 20, 20); // サイズ設定（x, y, z）
+  // }
+
+  // createMaterial(){
+  //   return material;
+  // }
+
+  // createMesh(){
+  //   this.geometry = new THREE.CubeGeometry(20, 20, 20); // サイズ設定（x, y, z）
+  //   // マテリアルの作成
+  //   this.material = new THREE.MeshPhongMaterial({color: 'white'});
+  //   // メッシュの作成
+  //   this.musicObject = new THREE.Mesh(this.geometry, this.material);
+  //   this.musicObject.position.set(this.x, this.y, this.z);
+  //   this.musicObject.castShadow = true;
+  // }
 
   getObject(){
   	this.setProperty();
   	this.getData();
+
     
 
   	return　super.getObject();

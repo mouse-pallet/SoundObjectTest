@@ -14,16 +14,12 @@ class FairyObject{
 		this.geometry = new THREE.PlaneGeometry( 2, 2, 1, 1 );
 		this.material = new THREE.MeshLambertMaterial( { map: this.map1,transparent: true,side:THREE.DoubleSide} );
 		// メッシュの作成
-		this.cube = new THREE.Mesh(this.geometry, this.material);
-		// this.cube.position.set(0,10,-10);
-		this.cube.rotation.y=-Math.PI;
+		this.fairy = new THREE.Mesh(this.geometry, this.material);
+		// this.fairy.position.set(0,10,-10);
+		this.fairy.rotation.y=-Math.PI;
 
 	}	
 	
-
-	// setMusic(music){
-	// 	this.music=music;
-	// }
 
 	setImage(img){
 		this.img= img;
@@ -32,19 +28,19 @@ class FairyObject{
 	setColor(color){
 
 		this.material = new THREE.MeshPhongMaterial({color: color});
-		this.cube = new THREE.Mesh(this.geometry, this.material);
-		this.cube.position.set(this.x, this.y, this.z);
+		this.fairy = new THREE.Mesh(this.geometry, this.material);
+		this.fairy.position.set(this.x, this.y, this.z);
 
 	}
 
 
 	getObject(){
-		return this.cube;
+		return this.fairy;
 	}
 
 	setPosition(x,y,z){
-		console.log("x:"+x+",y:"+y+",z:"+z);
-		this.cube.position.set(x, y, z);  // 位置を設定(x, y, z)	
+		// console.log("x:"+x+",y:"+y+",z:"+z);
+		this.fairy.position.set(x, y, z);  // 位置を設定(x, y, z)	
 	}
 
 }
